@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на День Святого Валентина</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://i.ibb.co/jvrVv36/image.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+
+        h1,
+        p {
+            color: #333;
+        }
+
+        #buttons,
+        #result,
+        #final-message,
+        {
+            margin-top: 20px;
+            display: none;
+        }
+
+        #confession-content {
+            margin-top: 0;
+            display: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #d9534f;
+            color: white;
+        }
+
+        .animated-gif {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        #final-message img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeIn {
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container fadeIn" id="main-content">
+        <h1>Станешь моей валентинкой?</h1>
+        <div id="image-container">
+            <img class="animated-gif" src="https://i.ibb.co/mNwgcmg/image.gif" alt="Анимированный GIF">
+        </div>
+        <div id="buttons">
+            <button class="btn" onclick="handleNo()">Нет</button>
+            <button class="btn" onclick="handleYes()">Да</button>
+        </div>
+
+        <div id="result">
+            <p id="result-text"></p>
+        </div>
+        <div id="final-message" style="display: none;">
+            <button class="btn" onclick="handleNext()">Далее</button>
+        </div>
+
+        <div id="confession-content">
+            <p id="confession-text"></p>
+            <img id="confession-image" class="animated-gif" alt="Фотография признания">
+        </div>
+        <audio controls autoplay>
+            <source src="https://cdn.jsdelivr.net/gh/maksym-sk21/valentine@549386327f981d01bbb35dfbb32c17a9d47a4160/%D0%B2%D0%B0%D0%BB%D0%B5%D0%BD%D1%82%D0%B8%D0%BD%D0%BA%D0%B0.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        var noClicks = 0;
+        var currentConfessionIndex = 0;
+
+        var confessions = [{
+                text: 'Ты – свет моей жизни, и в каждой моей мысли звучит лишь одна мелодия: как сильно я люблю тебя.',
+                image: 'https://i.ibb.co/Pxxpdpr/photo-5359422808456811273-y.jpg'
+            },
+            {
+                text: 'Твои доброта и нежность превратили меня в лучшего человека, и я благодарен каждому моменту, проведенному с тобой.',
+                image: 'https://i.ibb.co/SVntq3X/photo-5359422808456811247-y.jpg'
+            },
+            {
+                text: 'Нам встречаются недопонимания, и иногда у нас бывают трудные времена, но в этом процессе я видел, как сильны мы вместе.',
+                image: 'https://i.ibb.co/0qzQvS0/photo-5359456352151393876-x.jpg'
+            },
+            {
+                text: 'Возможно, мы сталкиваемся с трудностями, но я уверен, что мы преодолеем любые препятствия, потому что вместе мы непобедимы.',
+                image: 'https://i.ibb.co/2hmH5t1/photo-5359456352151393877-y-1.jpg'
+            },
+            {
+                text: 'Моя мечта – стать лучшей парой на свете, и я знаю, что с тобой рядом эта мечта станет яркой реальностью.',
+                image: 'https://i.ibb.co/gdckNsL/photo-5359422808456811270-m.jpg'
+            }
+        ];
+
+        function handleNo() {
+            noClicks++;
+            if (noClicks === 1) {
+                changeGifAndText("https://i.ibb.co/cyY0bHc/1.gif", "Ты разбиваешь мне сердце ;(");
+            } else if (noClicks === 2) {
+                changeGifAndText("https://i.ibb.co/w4f7gnK/2.gif", "Пожалуйста, не делай это со мной");
+            } else if (noClicks === 3) {
+                changeGifAndText("https://i.ibb.co/DbqxKrs/3.gif", "Нажми 'Да', больше я не выдержу");
+            }
+        }
+
+        function handleYes() {
+            changeGifAndText("https://i.ibb.co/SwH2TtG/2.gif", "Урааа!");
+            var buttons = document.getElementById('buttons');
+            buttons.style.display = 'none';
+
+            var result = document.getElementById('result');
+            result.style.display = 'block';
+
+            var finalMessage = document.getElementById('final-message');
+            finalMessage.style.display = 'block';
+        }
+
+        function changeGifAndText(gifUrl, text) {
+            var imageContainer = document.getElementById('image-container');
+            imageContainer.innerHTML = '<img class="animated-gif" src="' + gifUrl + '" alt="Анимированный GIF">';
+            var resultText = document.getElementById('result-text');
+            resultText.innerHTML = text;
+        }
+
+        function handleNext() {
+            var mainTitle = document.querySelector('#main-content h1');
+    mainTitle.innerHTML = 'Мое признание';
+
+    changeGifAndText("https://i.ibb.co/SwH2TtG/2.gif", "Далее");
+    var buttons = document.getElementById('buttons');
+    buttons.style.display = 'none';
+
+    var result = document.getElementById('result');
+    result.style.display = 'block';
+
+    var finalMessage = document.getElementById('final-message');
+    finalMessage.style.display = 'block';
+
+            if (currentConfessionIndex < confessions.length) {
+                var imageContainer = document.getElementById('image-container');
+                imageContainer.innerHTML = '<img class="animated-gif" src="' + confessions[currentConfessionIndex].image + '" alt="Анимированный GIF">';
+
+                var resultText = document.getElementById('result-text');
+                resultText.innerHTML = confessions[currentConfessionIndex].text;
+
+                currentConfessionIndex++;
+
+                // Если это последнее признание, скрываем кнопку "Далее"
+                if (currentConfessionIndex === confessions.length) {
+                    var nextButton = document.querySelector('#final-message button');
+                    nextButton.style.display = 'none';
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>
